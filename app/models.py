@@ -40,11 +40,11 @@ class User(UserMixin, db.Model):
             digest,size)
 
     def follow(self, user):
-        if not is_following():
+        if not self.is_following(user):
             self.followed.append(user)
 
     def unfollow(self, user):
-        if is_following():
+        if self.is_following(user):
             self.followed.remove(user)
 
     def is_following(self, user):
