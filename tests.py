@@ -1,7 +1,9 @@
+#!/usr/bin/env python
 from datetime import datetime, timedelta
 import unittest
 from app import app, db
 from app.models import User, Post
+
 
 class UserModelCase(unittest.TestCase):
     def setUp(self):
@@ -32,6 +34,7 @@ class UserModelCase(unittest.TestCase):
         db.session.commit()
         self.assertEqual(u1.followed.all(), [])
         self.assertEqual(u1.followers.all(), [])
+
         u1.follow(u2)
         db.session.commit()
         self.assertTrue(u1.is_following(u2))
@@ -39,6 +42,7 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(u1.followed.first().username, 'susan')
         self.assertEqual(u2.followers.count(), 1)
         self.assertEqual(u2.followers.first().username, 'john')
+
         u1.unfollow(u2)
         db.session.commit()
         self.assertFalse(u1.is_following(u2))
@@ -82,6 +86,7 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(f2, [p2, p3])
         self.assertEqual(f3, [p3, p4])
         self.assertEqual(f4, [p4])
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
